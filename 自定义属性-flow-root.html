@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+<div id="app">
+	<div class="box"></div>
+	<div class="el-float">浮动元素</div>
+	<div class="el-float">浮动元素</div>
+</div>
+</body>
+<style type="text/css">
+	:root{
+		--box-color: #4d4e53;
+		--box-content: 'This is my box';
+	}
+	#app{
+		border: 1px solid #fdf;
+		display: flow-root;
+	}
+	.el-float{
+		float: left;
+	}
+	.box{
+		--box-color: #4d4e53;
+		--box-padding:0 10px;
+		margin: var(--box-margin, 10px);
+		padding: var(--box-padding, var(--margin-padding));
+		--box-text: 'This is my box';
+		--box-highlight-text: var(--box-text)' with highlight';
+	}
+	.box:after{
+		content: var(--box-highlight-text);
+	}
+</style>
+<!-- <script src="https://unpkg.com/vue/dist/vue.js"></script> -->
+<script type="text/javascript">
+
+</script>
+</html>
