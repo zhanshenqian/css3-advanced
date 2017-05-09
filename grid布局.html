@@ -6,8 +6,8 @@
 <body>
 	<div class="grid-container">
 		<div class="grid-item"></div>
-		<div class="grid-item"></div>
-		<div class="grid-item"></div>
+		<div class="grid-item">大杀四方</div>
+		<div class="grid-item">ifhasf</div>
 		<div class="grid-item"></div>
 		<div class="grid-item"></div>
 		<div class="grid-item"></div>
@@ -33,10 +33,20 @@
 	.grid-item:nth-child(2){
 		grid-row: 2/4; /* 网格线，其中第一个数字是列的起始网格线位置，第二个数字是线束网格线的位置 ----也就是说是2--4*/
 		/*height: 120px;*/
+		writing-mode: vertical-rl;
+		/*writing-mode: horizontal-tb; writing-mode: vertical-rl; writing-mode: vertical-lr; writing-mode: sideways-rl; writing-mode: sideways-lr;*/
 	}
 	.grid-item:nth-child(3){
 		grid-column: 2/ span 2; 
 		grid-row: 2 / span 2;
+	}
+	/*首字母下沉*/
+	.grid-item:nth-child(3)::first-letter{
+		color: #c69c6d;
+		float: left;
+		font-size: 5em;
+		margin: 0 .2em 0 0;
+		initial-letter: 3 1;
 	}
 	/*对于一个CSS Grid，可以通过grid-template-columns创建列网格线，grid-template-rows创建行网格线。这种方式创建的是一种显式的网格线*/
 	/*除此之外，还可以使用grid-auto-rows和grid-auto-columns可以创建一个隐式网格。这个隐式网格对应的网格线就被称之为隐式网格线*/
@@ -60,6 +70,5 @@
 </style>
 <!-- <script src="https://unpkg.com/vue/dist/vue.js"></script> -->
 <script type="text/javascript">
-
 </script>
 </html>
