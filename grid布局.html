@@ -22,6 +22,8 @@
 		grid-template-columns:1fr 1fr 1fr; /* 定义三列网格 */
 		grid-gap: 5px; /* 单元格之间有5px的间距，同时每列的列宽是整个宽度的三分之一著作权归作者所有。*/
 		height: 300px;
+		animation: move 1s linear forwards;
+		/*transform: translateX(50%);*/
 	}
 	.grid-item{
 		background-color: lightsalmon;
@@ -48,6 +50,14 @@
 		margin: 0 .2em 0 0;
 		initial-letter: 3 1;
 	}
+	@keyframes move{
+		from {
+			transform: translateX(0);
+		}
+		to {
+			transform:  translateX(50%);
+		}
+	}
 	/*对于一个CSS Grid，可以通过grid-template-columns创建列网格线，grid-template-rows创建行网格线。这种方式创建的是一种显式的网格线*/
 	/*除此之外，还可以使用grid-auto-rows和grid-auto-columns可以创建一个隐式网格。这个隐式网格对应的网格线就被称之为隐式网格线*/
 
@@ -70,5 +80,11 @@
 </style>
 <!-- <script src="https://unpkg.com/vue/dist/vue.js"></script> -->
 <script type="text/javascript">
+setTimeout(function() {
+	document.querySelector('.grid-container').style.display = 'none'
+	setTimeout(function() {
+	document.querySelector('.grid-container').style.display = 'grid'
+}, 2000)
+}, 2000)
 </script>
 </html>
