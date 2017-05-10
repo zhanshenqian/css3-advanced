@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<style type="text/css">
+	.demo-1-1{
+		transition: 1s height; /* 延时只适用于height */
+		width: 10px;
+		height: 10px;
+		background-color: #154523;
+	}
+	.demo-1-1:hover{
+		width: 20px;
+		height: 20px;
+		background-color: red;
+	}
+	.demo-1-2{
+		transition: 1s height, 1s 1s width; /* 延时只适用于height */
+		width: 10px;
+		height: 10px;
+		background-color: #154523;
+	}
+</style>
+<body>
+	<h2>浏览器处理动画时是用GPU处理的，一般位移要尽量用transfroms属性，这样动画过渡比较平滑</h2>
+	<section>
+		<p>1.1 基础用法</p>
+		<span>transition</span>
+		<div class="demo-1-1"></div>
+		<p>1.2 transiton-delay</p>
+		<span>height先发生变化，等结束以后，再让width发生变化。实现这一点很容易，就是为width指定一个delay参数。</span>
+		<div>width在1秒之后，再开始变化，也就是延迟（delay）1秒，效果如下。delay的真正意义在于，它指定了动画发生的顺序，使得多个不同的transition可以连在一起，形成复杂效果。</div>
+		<div class="demo-1-1 demo-1-2"></div>
+		<p>1.3 transition-timing-function</p>
+		<div>transition的状态变化速度（又称timing function），默认不是匀速的，而是逐渐放慢，这叫做ease。</div>
+		<div>
+			（1）linear：匀速
+（2）ease-in：加速
+（3）ease-out：减速
+（4）cubic-bezier函数：自定义速度模式
+		</div>
+		<p>1.4 transition的各项属性</p>
+		<div>
+			img{
+			    transition: 1s 1s height ease;
+			}
+
+			这其实是一个简写形式，可以单独定义成各个属性。
+
+			img{
+			    transition-property: height;
+			    transition-duration: 1s;
+			    transition-delay: 1s;
+			    transition-timing-function: ease;
+			}
+		</div>
+		<p>1.6 transition的局限</p>
+		<div>
+			transition的优点在于简单易用，但是它有几个很大的局限。
+			（1）transition需要事件触发，所以没法在网页加载时自动发生。
+			（2）transition是一次性的，不能重复发生，除非一再触发。
+			（3）transition只能定义开始状态和结束状态，不能定义中间状态，也就是说只有两个状态。
+			（4）一条transition规则，只能定义一个属性的变化，不能涉及多个属性。
+			CSS Animation就是为了解决这些问题而提出的。
+		</div>
+		<h2>CSS Animation</h2>
+		<p>2.1 基础用法</p>
+		<span>
+			div:hover {
+			  animation: 1s rainbow;
+			}
+		</span>
+		<p>当鼠标悬停在div元素上时，会产生名为rainbow的动画效果，持续时间为1秒。为此，我们还需要用keyframes关键字，定义rainbow效果。</p>
+		<div>
+			div:hover {
+			  animation: 1s rainbow infinite;
+			}
+		</div>
+		<span>加入infinite关键字，可以让动画无限次播放。也可以指定动画具体播放的次数，比如3次</span>
+		<p>2.2 animation-fill-mode</p>
+		<div>
+			动画结束以后，会立即从结束状态跳回到起始状态。如果想让动画保持在结束状态，需要使用animation-fill-mode属性。
+
+			div:hover {
+			  animation: 1s rainbow forwards;
+			}
+			animation-fill-mode还可以使用下列值。
+		（1）none：默认值，回到动画没开始时的状态。
+		（2）backwards：让动画回到第一帧的状态。
+		（3）both: 根据animation-direction（见后）轮流应用forwards和backwards规则
+		</div>
+		<p>2.3 animation-direction</p>
+		<div>
+			默认情况是，animation-direction等于normal。
+
+			div:hover {
+			  animation: 1s rainbow 3 normal;
+			}
+			此外，还可以等于取alternate、reverse、alternate-reverse等值。它们的含义见下图（假定动画连续播放三次）。
+		</div>
+		<strong>简单说，animation-direction指定了动画播放的方向，最常用的值是normal和reverse。浏览器对其他值的支持情况不佳，应该慎用。</strong>
+		<p>2.4 animation的各项属性</p>
+		<div>
+			同transition一样，animation也是一个简写形式。
+
+			div:hover {
+			  animation: 1s 1s rainbow linear 3 forwards normal;
+			}
+		</div>
+		<div>
+			
+		div:hover {
+		  animation-name: rainbow;
+		  animation-duration: 1s;
+		  animation-timing-function: linear;
+		  animation-delay: 1s;
+		  animation-fill-mode:forwards;
+		  animation-direction: normal;
+		  animation-iteration-count: 3;
+		}
+		</div>
+		<p>2.5 keyframes的写法</p>
+		<div>
+			0%可以用from代表，100%可以用to代表，因此上面的代码等同于下面的形式。
+
+			@keyframes rainbow {
+			  from { background: #c00 }
+			  50% { background: orange }
+			  to { background: yellowgreen }
+			}
+		</div>
+		<div>
+			如果省略某个状态，浏览器会自动推算中间状态。甚至，可以把多个状态写在一行。
+
+			@keyframes pound {
+			  from，to { transform: none; }
+			  50% { transform: scale(1.2); }
+			}
+		</div>
+		<div>
+			另外一点需要注意的是，浏览器从一个状态向另一个状态过渡，是平滑过渡。steps函数可以实现分步过渡。
+
+			div:hover {
+			  animation: 1s rainbow infinite steps(10);
+			}
+
+		</div>
+		<p>2.6 animation-play-state</p>
+		<div>有时，动画播放过程中，会突然停止。这时，默认行为是跳回到动画的开始状态。</div>
+		<strong>
+			如果想让动画保持突然终止时的状态，就要使用animation-play-state属性。
+
+			div {
+			    animation: spin 1s linear infinite;
+			    animation-play-state: paused;
+			}
+
+			div:hover {
+			  animation-play-state: running;
+			}
+
+		</strong>
+		<p>2.7 浏览器前缀</p>
+			<div>
+			目前，IE 10和Firefox（>= 16）支持没有前缀的animation，而chrome不支持，所以必须使用webkit前缀。
+			也就是说，实际运用中，代码必须写成下面的样子。
+
+			div:hover {
+			  -webkit-animation: 1s rainbow;
+			  animation: 1s rainbow;  
+			}
+
+			@-webkit-keyframes rainbow {
+			  0% { background: #c00; }
+			  50% { background: orange; }
+			  100% { background: yellowgreen; }
+			}
+
+			@keyframes rainbow {
+			  0% { background: #c00; }
+			  50% { background: orange; }
+			  100% { background: yellowgreen; }
+			}
+			</div>
+		</p>
+	</section>
+
+</body>
+</html>
